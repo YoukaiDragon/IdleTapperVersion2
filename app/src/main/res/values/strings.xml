@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">IdleTapperVersion2</string>
+    <!--    String interpolation can be used to handle dynamically updated strings -->
+    <string name="tap_count">%d TAPS</string>
+    <string name="tap_button">TAP</string>
+    <string name="store_button">Upgrades</string>
+    <string name="return_button">Close</string>
+    <string name="upgrade_tap">Upgrade Tap Cost: %d</string>
+    <string name="upgrade_idle">Upgrade Idle Cost: %d</string>
+    <string name="tap_power">Tap Power: %d</string>
+    <string name="idle_power">Idle Power: %d</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
