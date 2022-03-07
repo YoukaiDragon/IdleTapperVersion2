@@ -24,6 +24,7 @@ class StoreActivity : AppCompatActivity() {
     val costIncreaseFactor = 1.15
 
     //upgrade Levels for buttons
+    val upgradeLevels = Array(2) {0}
 
     lateinit var binding: ActivityStoreBinding
 
@@ -32,7 +33,7 @@ class StoreActivity : AppCompatActivity() {
         binding = ActivityStoreBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val returnButton : Button = binding.returnButton
+        /*val returnButton : Button = binding.returnButton
         returnButton.setOnClickListener {
             val context = returnButton.context
             val intent = Intent(context, MainActivity::class.java)
@@ -66,7 +67,7 @@ class StoreActivity : AppCompatActivity() {
                 //update the display
                 updateUI()
             }
-        }
+        }*/
 
         //start function to generate idle taps
         val handler = Handler(Looper.getMainLooper())
@@ -92,10 +93,10 @@ class StoreActivity : AppCompatActivity() {
     }
 
     private fun updateUI() {
-        binding.upgradeTap.text = getString(R.string.upgrade_tap,
-            getUpgradeCost(baseUpgradeCost, costIncreaseFactor, tapPower - 1))
-        binding.upgradeIdle.text = getString(R.string.upgrade_idle,
-            getUpgradeCost(2 * baseUpgradeCost, costIncreaseFactor, idlePower))
+        //binding.upgradeTap.text = getString(R.string.upgrade_tap,
+        //    getUpgradeCost(baseUpgradeCost, costIncreaseFactor, tapPower - 1))
+        //binding.upgradeIdle.text = getString(R.string.upgrade_idle,
+        //    getUpgradeCost(2 * baseUpgradeCost, costIncreaseFactor, idlePower))
     }
 
     //determines the costs of an upgrade

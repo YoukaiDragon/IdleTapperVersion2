@@ -5,10 +5,9 @@
     <string name="tap_button">TAP</string>
     <string name="store_button">Upgrades</string>
     <string name="return_button">Close</string>
-    <string name="upgrade_tap">Upgrade Tap Cost: %d</string>
-    <string name="upgrade_idle">Upgrade Idle Cost: %d</string>
     <string name="tap_power">Tap Power: %d</string>
     <string name="idle_power">Idle Power: %d</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--Shop Buttons-->
+    <string name="shop0">Upgrade Tap Cost: %d</string>
+    <string name="shop1">Upgrade Idle Cost: 5d</string>
 </resources>
