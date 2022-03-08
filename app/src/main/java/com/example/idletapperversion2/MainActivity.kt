@@ -21,8 +21,8 @@ class MainActivity : AppCompatActivity() {
         val STATE_TAPS = "tapCount"
         val STATE_TAPPOW = "tapPower"
         val STATE_IDLEPOW = "idlePower"
-        val STATE_POWUP = "powerUpgradeCost"
-        val STATE_IDLEUP = "idleUpgradeCost"
+        val STATE_TAPUPGRADES = "tapUpgrades"
+        val STATE_IDLEUPGRADES = "idleUpgrades"
     }
 
     val TAG = "mainActivity"
@@ -30,8 +30,9 @@ class MainActivity : AppCompatActivity() {
     var tapCount = 0
     var tapPower = 1 //amount tapCount increments when tap button is pressed
     var idlePower = 0 //amount tapCount increments every second
-    var powerUpgradeCost = 10
-    var idleUpgradeCost = 20
+
+    var tapUpgradeLevel = 0
+    var idleUpgradeLevel = 0
 
     lateinit var binding: ActivityMainBinding
 
@@ -57,21 +58,10 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("taps", tapCount)
             intent.putExtra("tapPower", tapPower)
             intent.putExtra("idlePower", idlePower)
+            intent.putExtra("tapUpgrades", tapUpgradeLevel)
+            intent.putExtra("idleUpgrades", idleUpgradeLevel)
             context.startActivity(intent)
         }
-
-        //load the saved instance state if one exists
-        if (savedInstanceState != null) {
-            with(savedInstanceState) {
-                tapCount = getInt(STATE_TAPS)
-                tapPower = getInt(STATE_TAPPOW)
-                idlePower = getInt(STATE_IDLEPOW)
-                powerUpgradeCost = getInt(STATE_POWUP)
-                idleUpgradeCost = getInt(STATE_IDLEUP)
-            }
-        }
-        //set the text displays
-        updateUI()
 
         //start function to generate idle taps
         val handler = Handler(Looper.getMainLooper())
@@ -89,8 +79,8 @@ class MainActivity : AppCompatActivity() {
             putInt(STATE_TAPS, tapCount)
             putInt(STATE_TAPPOW, tapPower)
             putInt(STATE_IDLEPOW, idlePower)
-            putInt(STATE_POWUP, powerUpgradeCost)
-            putInt(STATE_IDLEUP, idleUpgradeCost)
+            putInt(STATE_TAPUPGRADES, tapUpgradeLevel)
+            putInt(STATE_IDLEUPGRADES, idleUpgradeLevel)
         }
 
     }
@@ -108,9 +98,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+
         tapCount = intent.getIntExtra("taps", tapCount)
         tapPower = intent.getIntExtra("tapPower", tapPower)
         idlePower = intent.getIntExtra("idlePower", idlePower)
+        tapUpgradeLevel = intent.getIntExtra("tapUpgrades", tapUpgradeLevel)
+        idleUpgradeLevel = intent.getIntExtra("idleUpgrades", idleUpgradeLevel)
 
         updateUI()
     }

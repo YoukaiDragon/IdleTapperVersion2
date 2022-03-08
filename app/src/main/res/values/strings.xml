@@ -8,6 +8,6 @@
     <string name="tap_power">Tap Power: %d</string>
     <string name="idle_power">Idle Power: %d</string>
     <!--Shop Buttons-->
-    <string name="shop0">Upgrade Tap Cost: %d</string>
-    <string name="shop1">Upgrade Idle Cost: 5d</string>
+    <string name="upgrade_tap">Upgrade Tap Cost: %d</string>
+    <string name="upgrade_idle">Upgrade Idle Cost: %d</string>
 </resources>
