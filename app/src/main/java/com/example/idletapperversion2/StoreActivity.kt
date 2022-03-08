@@ -7,8 +7,11 @@ import android.os.Handler
 import android.os.Looper
 import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
+import com.example.idletapperversion2.adapter.ItemAdapter
+import com.example.idletapperversion2.data.Datasource
 import com.example.idletapperversion2.databinding.ActivityMainBinding
 import com.example.idletapperversion2.databinding.ActivityStoreBinding
+import com.example.idletapperversion2.model.StoreText
 import kotlin.math.pow
 import kotlin.math.roundToInt
 
@@ -45,6 +48,10 @@ class StoreActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityStoreBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val storeTextList = Datasource().loadData()
+        binding.recyclerView.adapter = ItemAdapter(this, storeTextList)
+        binding.textView.text = storeTextList.size.toString()
 
 
         val returnButton : Button = binding.returnButton
