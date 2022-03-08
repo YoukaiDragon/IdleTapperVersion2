@@ -1,40 +1,33 @@
 package com.example.idletapperversion2
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
-import android.view.View
 import android.widget.Button
-import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import com.example.idletapperversion2.databinding.ActivityMainBinding
-import kotlinx.coroutines.Job
-import java.util.*
-import kotlin.concurrent.timerTask
-import kotlin.math.roundToInt
 
 class MainActivity : AppCompatActivity() {
 
     companion object {
-        val STATE_TAPS = "tapCount"
-        val STATE_TAPPOW = "tapPower"
-        val STATE_IDLEPOW = "idlePower"
-        val STATE_TAPUPGRADES = "tapUpgrades"
-        val STATE_IDLEUPGRADES = "idleUpgrades"
+        const val STATE_TAPS = "tapCount"
+        const val STATE_TAPPOW = "tapPower"
+        const val STATE_IDLEPOW = "idlePower"
+        const val STATE_TAPUPGRADES = "tapUpgrades"
+        const val STATE_IDLEUPGRADES = "idleUpgrades"
     }
 
     val TAG = "mainActivity"
 
-    var tapCount = 0
-    var tapPower = 1 //amount tapCount increments when tap button is pressed
-    var idlePower = 0 //amount tapCount increments every second
+    private var tapCount = 0
+    private var tapPower = 1 //amount tapCount increments when tap button is pressed
+    private var idlePower = 0 //amount tapCount increments every second
 
-    var tapUpgradeLevel = 0
-    var idleUpgradeLevel = 0
+    private var tapUpgradeLevel = 0
+    private var idleUpgradeLevel = 0
 
-    lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

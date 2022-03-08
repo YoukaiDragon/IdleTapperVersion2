@@ -1,48 +1,44 @@
 package com.example.idletapperversion2
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.widget.Button
-import androidx.recyclerview.widget.RecyclerView
+import androidx.appcompat.app.AppCompatActivity
 import com.example.idletapperversion2.adapter.ItemAdapter
 import com.example.idletapperversion2.data.Datasource
-import com.example.idletapperversion2.databinding.ActivityMainBinding
 import com.example.idletapperversion2.databinding.ActivityStoreBinding
-import com.example.idletapperversion2.model.StoreText
-import kotlin.math.pow
 import kotlin.math.roundToInt
 
 class StoreActivity : AppCompatActivity() {
 
     companion object {
-        val STATE_TAPS = "tapCount"
-        val STATE_TAPPOW = "tapPower"
-        val STATE_IDLEPOW = "idlePower"
-        val STATE_TAPUPGRADES = "tapUpgrades"
-        val STATE_IDLEUPGRADES = "idleUpgrades"
+        const val STATE_TAPS = "tapCount"
+        const val STATE_TAPPOW = "tapPower"
+        const val STATE_IDLEPOW = "idlePower"
+        const val STATE_TAPUPGRADES = "tapUpgrades"
+        const val STATE_IDLEUPGRADES = "idleUpgrades"
     }
 
     val TAG = "storeActivity"
 
     //flag to prevent overwriting loaded bundle varibles with extras from MainActivity
-    var loadedBundle = false
+    private var loadedBundle = false
 
-    var tapCount = 0
-    var tapPower = 1
-    var idlePower = 0
+    private var tapCount = 0
+    private var tapPower = 1
+    private var idlePower = 0
 
     //base factors for determining upgrade cost
-    val baseUpgradeCost = 10
-    val costIncreaseFactor = 1.15
+    private val baseUpgradeCost = 10
+    private val costIncreaseFactor = 1.15
 
     //upgrade Levels for buttons
-    var tapUpgradeLevel = 0
-    var idleUpgradeLevel = 0
+    private var tapUpgradeLevel = 0
+    private var idleUpgradeLevel = 0
 
-    lateinit var binding: ActivityStoreBinding
+    private lateinit var binding: ActivityStoreBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -120,6 +116,8 @@ class StoreActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        //if statement to prevent the contents of the bundle from getting overwritten
+        //if they were loaded in
         if(!loadedBundle) {
             tapCount = intent.getIntExtra("taps", tapCount)
             tapPower = intent.getIntExtra("tapPower", tapPower)
@@ -160,6 +158,7 @@ class StoreActivity : AppCompatActivity() {
         var cost = baseCost
         var x = 0
 
+        //each upgrade level cost is the previous level cost * costIncreaseFactor
         while(x < upgradeLevel) {
             cost = (cost * costIncreaseFactor).roundToInt()
             x++
