@@ -16,22 +16,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/upgradeTap"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/upgrade_tap"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tapCounter" />
-
-    <Button
-        android:id="@+id/upgradeIdle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/upgrade_idle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/upgradeTap" />
-
     <TextView
         android:id="@+id/tapCounter"
         android:layout_width="wrap_content"
@@ -50,14 +34,6 @@
         app:layout_constraintBottom_toTopOf="@+id/returnButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/upgradeIdle" />
+        app:layout_constraintTop_toBottomOf="@+id/tapCounter" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/testing1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/upgradeTap"
-        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

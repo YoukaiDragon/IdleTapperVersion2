@@ -26,9 +26,9 @@ class StoreActivity : AppCompatActivity() {
     //flag to prevent overwriting loaded bundle varibles with extras from MainActivity
     private var loadedBundle = false
 
-    private var tapCount = 0
-    private var tapPower = 1
-    private var idlePower = 0
+    var tapCount = 0
+    var tapPower = 1
+    var idlePower = 0
 
     //base factors for determining upgrade cost
     private val baseUpgradeCost = 10
@@ -47,7 +47,6 @@ class StoreActivity : AppCompatActivity() {
 
         val storeTextList = Datasource().loadData()
         binding.recyclerView.adapter = ItemAdapter(this, storeTextList)
-        binding.textView.text = storeTextList.size.toString()
 
 
         val returnButton : Button = binding.returnButton
@@ -60,34 +59,6 @@ class StoreActivity : AppCompatActivity() {
             intent.putExtra("tapUpgrades", tapUpgradeLevel)
             intent.putExtra("idleUpgrades", idleUpgradeLevel)
             context.startActivity(intent)
-        }
-
-        //button for user to increase number of taps gained per click of tapButton
-        val powerUpgradeButton: Button = binding.upgradeTap
-        powerUpgradeButton.setOnClickListener {
-            //spend taps to upgrade tapPower if the user has enough
-            val powerUpgradeCost = getUpgradeCost(baseUpgradeCost, costIncreaseFactor, idlePower - 1)
-            if (tapCount >= powerUpgradeCost) {
-                tapCount -= powerUpgradeCost
-                tapPower += 1
-                tapUpgradeLevel++
-                //update the display
-                updateUI()
-            }
-        }
-
-        //button for user to increase number of taps gained passively each second
-        val idleUpgradeButton: Button = binding.upgradeIdle
-        idleUpgradeButton.setOnClickListener {
-            //spend taps to upgrade idleTap if the user has enough
-            val idleUpgradeCost =  getUpgradeCost(2 * baseUpgradeCost, costIncreaseFactor, idlePower)
-            if (tapCount >= idleUpgradeCost) {
-                tapCount -= idleUpgradeCost
-                idlePower += 1
-                idleUpgradeLevel++
-                //update the display
-                updateUI()
-            }
         }
 
         //load the saved instance state if one exists
@@ -126,7 +97,7 @@ class StoreActivity : AppCompatActivity() {
             idleUpgradeLevel = intent.getIntExtra("idleUpgrades", idleUpgradeLevel)
         }
 
-        updateUI()
+        updateTapCount()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -143,18 +114,15 @@ class StoreActivity : AppCompatActivity() {
 
     private fun idleTap() {
         tapCount += idlePower
+        binding.tapCounter.text = getString(R.string.tap_count, tapCount)
     }
 
-    private fun updateUI() {
-        binding.upgradeTap.text = getString(R.string.upgrade_tap,
-            getUpgradeCost(baseUpgradeCost, costIncreaseFactor, tapUpgradeLevel))
-        binding.upgradeIdle.text = getString(R.string.upgrade_idle,
-            getUpgradeCost(2 * baseUpgradeCost, costIncreaseFactor, idleUpgradeLevel))
+    fun updateTapCount() {
         binding.tapCounter.text = getString(R.string.tap_count, tapCount)
     }
 
     //determines the costs of an upgrade
-    private fun getUpgradeCost(baseCost: Int, costIncreaseFactor: Double, upgradeLevel: Int): Int {
+    fun getUpgradeCost(baseCost: Int, costIncreaseFactor: Double, upgradeLevel: Int): Int {
         var cost = baseCost
         var x = 0
 

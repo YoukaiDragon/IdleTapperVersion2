@@ -11,6 +11,8 @@
     <string name="upgrade_tap">Upgrade Tap Cost: %d</string>
     <string name="upgrade_idle">Upgrade Idle Cost: %d</string>
 
-    <string name="testing1">Testing</string>
-    <string name="testing2">More Testing</string>
+    <string name="store1">Tapper Cost: %d</string>
+    <string name="store2">Idler Cost: %d</string>
+    <string name="store3">Super Tapper Cost: %d</string>
+    <string name="store4">Super Idler Cost: %d</string>
 </resources>
