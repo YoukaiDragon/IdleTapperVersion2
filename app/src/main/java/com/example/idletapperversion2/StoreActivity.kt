@@ -17,8 +17,7 @@ class StoreActivity : AppCompatActivity() {
         const val STATE_TAPS = "tapCount"
         const val STATE_TAPPOW = "tapPower"
         const val STATE_IDLEPOW = "idlePower"
-        const val STATE_TAPUPGRADES = "tapUpgrades"
-        const val STATE_IDLEUPGRADES = "idleUpgrades"
+        const val STATE_UPGRADES = "upgrades"
     }
 
     val TAG = "storeActivity"
@@ -35,8 +34,7 @@ class StoreActivity : AppCompatActivity() {
     private val costIncreaseFactor = 1.15
 
     //upgrade Levels for buttons
-    private var tapUpgradeLevel = 0
-    private var idleUpgradeLevel = 0
+    lateinit var upgrades: IntArray
 
     private lateinit var binding: ActivityStoreBinding
 
@@ -45,8 +43,9 @@ class StoreActivity : AppCompatActivity() {
         binding = ActivityStoreBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val storeTextList = Datasource().loadData()
-        binding.recyclerView.adapter = ItemAdapter(this, storeTextList)
+        val storeButtonList = Datasource().loadData()
+        upgrades = IntArray(storeButtonList.size){0}
+        binding.recyclerView.adapter = ItemAdapter(this, storeButtonList)
 
 
         val returnButton : Button = binding.returnButton
@@ -56,8 +55,7 @@ class StoreActivity : AppCompatActivity() {
             intent.putExtra("taps", tapCount)
             intent.putExtra("tapPower", tapPower)
             intent.putExtra("idlePower", idlePower)
-            intent.putExtra("tapUpgrades", tapUpgradeLevel)
-            intent.putExtra("idleUpgrades", idleUpgradeLevel)
+            intent.putExtra("upgrades", upgrades)
             context.startActivity(intent)
         }
 
@@ -67,8 +65,7 @@ class StoreActivity : AppCompatActivity() {
                 tapCount = getInt(STATE_TAPS)
                 tapPower = getInt(STATE_TAPPOW)
                 idlePower = getInt(STATE_IDLEPOW)
-                tapUpgradeLevel = getInt(STATE_TAPUPGRADES)
-                idleUpgradeLevel = getInt(STATE_IDLEUPGRADES)
+                upgrades = getIntArray(STATE_UPGRADES)!!
 
                 loadedBundle = true
             }
@@ -89,12 +86,15 @@ class StoreActivity : AppCompatActivity() {
         super.onStart()
         //if statement to prevent the contents of the bundle from getting overwritten
         //if they were loaded in
-        if(!loadedBundle) {
+        if(!loadedBundle && intent.extras != null) {
             tapCount = intent.getIntExtra("taps", tapCount)
             tapPower = intent.getIntExtra("tapPower", tapPower)
             idlePower = intent.getIntExtra("idlePower", idlePower)
-            tapUpgradeLevel = intent.getIntExtra("tapUpgrades", tapUpgradeLevel)
-            idleUpgradeLevel = intent.getIntExtra("idleUpgrades", idleUpgradeLevel)
+
+            //only load upgrades if list is initialized (length > 0)
+            if(intent.getIntArrayExtra("upgrades")!!.isNotEmpty()) {
+                upgrades = intent.getIntArrayExtra("upgrades")!!
+            }
         }
 
         updateTapCount()
@@ -106,8 +106,7 @@ class StoreActivity : AppCompatActivity() {
             putInt(STATE_TAPS, tapCount)
             putInt(STATE_TAPPOW, tapPower)
             putInt(STATE_IDLEPOW, idlePower)
-            putInt(STATE_TAPUPGRADES, tapUpgradeLevel)
-            putInt(STATE_IDLEUPGRADES, idleUpgradeLevel)
+            putIntArray(STATE_UPGRADES, upgrades)
         }
 
     }
@@ -119,19 +118,5 @@ class StoreActivity : AppCompatActivity() {
 
     fun updateTapCount() {
         binding.tapCounter.text = getString(R.string.tap_count, tapCount)
-    }
-
-    //determines the costs of an upgrade
-    fun getUpgradeCost(baseCost: Int, costIncreaseFactor: Double, upgradeLevel: Int): Int {
-        var cost = baseCost
-        var x = 0
-
-        //each upgrade level cost is the previous level cost * costIncreaseFactor
-        while(x < upgradeLevel) {
-            cost = (cost * costIncreaseFactor).roundToInt()
-            x++
-        }
-
-        return cost
     }
 }

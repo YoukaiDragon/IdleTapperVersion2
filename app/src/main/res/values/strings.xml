@@ -1,18 +1,17 @@
 <resources>
     <string name="app_name">IdleTapperVersion2</string>
-    <!--    String interpolation can be used to handle dynamically updated strings -->
     <string name="tap_count">%d TAPS</string>
     <string name="tap_button">TAP</string>
     <string name="store_button">Upgrades</string>
     <string name="return_button">Close</string>
     <string name="tap_power">Tap Power: %d</string>
     <string name="idle_power">Idle Power: %d</string>
-    <!--Shop Buttons-->
-    <string name="upgrade_tap">Upgrade Tap Cost: %d</string>
-    <string name="upgrade_idle">Upgrade Idle Cost: %d</string>
 
-    <string name="store1">Tapper Cost: %d</string>
-    <string name="store2">Idler Cost: %d</string>
-    <string name="store3">Super Tapper Cost: %d</string>
-    <string name="store4">Super Idler Cost: %d</string>
+    <!--Shop Buttons-->
+    <string name="tapper">Level %d Tapper Cost: %d</string>
+    <string name="idler">Level %d Idler Cost: %d</string>
+    <string name="super_tapper">Level %d Super Tapper Cost: %d</string>
+    <string name="super_idler">Level %d Super Idler Cost: %d</string>
+    <string name="ultra_tapper">Level %d Ultra Tapper Cost: %d</string>
+    <string name="ultra_idler">Level %d Ultra Idler Cost: %d</string>
 </resources>

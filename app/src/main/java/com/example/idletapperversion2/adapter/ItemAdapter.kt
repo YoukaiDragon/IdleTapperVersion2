@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.idletapperversion2.StoreActivity
 import com.example.idletapperversion2.databinding.ListItemBinding
 import com.example.idletapperversion2.model.StoreButton
+import kotlin.math.roundToInt
 
 class ItemAdapter(
     private val context: Context,
@@ -29,13 +30,13 @@ class ItemAdapter(
 
     }
 
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = dataset[position]
         //get the current upgrade cost and set the button text
         updateButtonText(holder, item)
         holder.binding.storeButton.setOnClickListener {
-            val upgradeCost = store.getUpgradeCost(item.baseCost, item.costIncreaseFactor, item.upgradeLevel)
+            val upgradeCost = getUpgradeCost(item.baseCost, item.costIncreaseFactor,
+                store.upgrades[item.upgradeIndex])
             if (store.tapCount >= upgradeCost) {
                 store.tapCount -= upgradeCost
                 if(item.idle) {
@@ -43,7 +44,7 @@ class ItemAdapter(
                 } else {
                     store.tapPower += item.upgradeAmount
                 }
-                item.upgradeLevel++
+                store.upgrades[item.upgradeIndex]++
                 updateButtonText(holder, item)
                 store.updateTapCount()
             }
@@ -53,7 +54,23 @@ class ItemAdapter(
     override fun getItemCount() = dataset.size
 
     private fun updateButtonText(holder: ViewHolder, item: StoreButton) {
-        val upgradeCost = store.getUpgradeCost(item.baseCost, item.costIncreaseFactor, item.upgradeLevel)
-        holder.binding.storeButton.text = context.resources.getString(item.stringResourceID, upgradeCost)
+        val upgradeCost = getUpgradeCost(item.baseCost, item.costIncreaseFactor,
+            store.upgrades[item.upgradeIndex])
+        holder.binding.storeButton.text = context.resources.getString(item.stringResourceID,
+            store.upgrades[item.upgradeIndex], upgradeCost)
+    }
+
+    //determines the costs of an upgrade
+    private fun getUpgradeCost(baseCost: Int, costIncreaseFactor: Double, upgradeLevel: Int): Int {
+        var cost = baseCost
+        var x = 0
+
+        //each upgrade level cost is the previous level cost * costIncreaseFactor
+        while(x < upgradeLevel) {
+            cost = (cost * costIncreaseFactor).roundToInt()
+            x++
+        }
+
+        return cost
     }
 }

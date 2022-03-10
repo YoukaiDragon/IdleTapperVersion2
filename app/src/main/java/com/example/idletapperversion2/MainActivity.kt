@@ -14,8 +14,7 @@ class MainActivity : AppCompatActivity() {
         const val STATE_TAPS = "tapCount"
         const val STATE_TAPPOW = "tapPower"
         const val STATE_IDLEPOW = "idlePower"
-        const val STATE_TAPUPGRADES = "tapUpgrades"
-        const val STATE_IDLEUPGRADES = "idleUpgrades"
+        const val STATE_UPGRADES = "upgrades"
     }
 
     val TAG = "mainActivity"
@@ -23,17 +22,29 @@ class MainActivity : AppCompatActivity() {
     private var tapCount = 0
     private var tapPower = 1 //amount tapCount increments when tap button is pressed
     private var idlePower = 0 //amount tapCount increments every second
-
-    private var tapUpgradeLevel = 0
-    private var idleUpgradeLevel = 0
+    private var upgrades = IntArray(0)
 
     private lateinit var binding: ActivityMainBinding
+
+    private var loadedBundle = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //load the saved instance state if one exists
+        if (savedInstanceState != null) {
+            with(savedInstanceState) {
+                tapCount = getInt(STATE_TAPS)
+                tapPower = getInt(STATE_TAPPOW)
+                idlePower = getInt(STATE_IDLEPOW)
+                upgrades = getIntArray(STATE_UPGRADES)!!
+
+                loadedBundle = true
+            }
+        }
 
         //button for user to increment tap count
         val tapButton: Button = binding.tapButton
@@ -51,8 +62,7 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("taps", tapCount)
             intent.putExtra("tapPower", tapPower)
             intent.putExtra("idlePower", idlePower)
-            intent.putExtra("tapUpgrades", tapUpgradeLevel)
-            intent.putExtra("idleUpgrades", idleUpgradeLevel)
+            intent.putExtra("upgrades", upgrades)
             context.startActivity(intent)
         }
 
@@ -72,8 +82,7 @@ class MainActivity : AppCompatActivity() {
             putInt(STATE_TAPS, tapCount)
             putInt(STATE_TAPPOW, tapPower)
             putInt(STATE_IDLEPOW, idlePower)
-            putInt(STATE_TAPUPGRADES, tapUpgradeLevel)
-            putInt(STATE_IDLEUPGRADES, idleUpgradeLevel)
+            putIntArray(STATE_UPGRADES, upgrades)
         }
 
     }
@@ -92,11 +101,14 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        tapCount = intent.getIntExtra("taps", tapCount)
-        tapPower = intent.getIntExtra("tapPower", tapPower)
-        idlePower = intent.getIntExtra("idlePower", idlePower)
-        tapUpgradeLevel = intent.getIntExtra("tapUpgrades", tapUpgradeLevel)
-        idleUpgradeLevel = intent.getIntExtra("idleUpgrades", idleUpgradeLevel)
+
+
+        if(!loadedBundle && intent.extras != null){
+            tapCount = intent.getIntExtra("taps", tapCount)
+            tapPower = intent.getIntExtra("tapPower", tapPower)
+            idlePower = intent.getIntExtra("idlePower", idlePower)
+            upgrades = intent.getIntArrayExtra("upgrades")!!
+        }
 
         updateUI()
     }
