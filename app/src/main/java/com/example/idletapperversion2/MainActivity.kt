@@ -22,11 +22,14 @@ class MainActivity : AppCompatActivity() {
     private var tapCount = 0
     private var tapPower = 1 //amount tapCount increments when tap button is pressed
     private var idlePower = 0 //amount tapCount increments every second
+
+    //array for upgrade levels of all shop items. Used to save values when returning from StoreActivity
     private var upgrades = IntArray(0)
 
     private lateinit var binding: ActivityMainBinding
 
-    private var loadedBundle = false
+    //flag to prevent overwriting loaded savedInstanceState variables with extras from StoreActivity
+    private var savedState = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,7 +45,7 @@ class MainActivity : AppCompatActivity() {
                 idlePower = getInt(STATE_IDLEPOW)
                 upgrades = getIntArray(STATE_UPGRADES)!!
 
-                loadedBundle = true
+                savedState = true
             }
         }
 
@@ -101,9 +104,8 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-
-
-        if(!loadedBundle && intent.extras != null){
+        //load extras if they exist and the savedInstanceState wasn't loaded
+        if (!savedState && intent.extras != null) {
             tapCount = intent.getIntExtra("taps", tapCount)
             tapPower = intent.getIntExtra("tapPower", tapPower)
             idlePower = intent.getIntExtra("idlePower", idlePower)

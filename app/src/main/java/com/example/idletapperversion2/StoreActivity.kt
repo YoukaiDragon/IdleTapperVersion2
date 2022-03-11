@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.idletapperversion2.adapter.ItemAdapter
 import com.example.idletapperversion2.data.Datasource
 import com.example.idletapperversion2.databinding.ActivityStoreBinding
-import kotlin.math.roundToInt
 
 class StoreActivity : AppCompatActivity() {
 
@@ -22,16 +21,12 @@ class StoreActivity : AppCompatActivity() {
 
     val TAG = "storeActivity"
 
-    //flag to prevent overwriting loaded bundle varibles with extras from MainActivity
-    private var loadedBundle = false
+    //flag to prevent overwriting loaded savedInstanceState variables with extras from MainActivity
+    private var savedState = false
 
     var tapCount = 0
     var tapPower = 1
     var idlePower = 0
-
-    //base factors for determining upgrade cost
-    private val baseUpgradeCost = 10
-    private val costIncreaseFactor = 1.15
 
     //upgrade Levels for buttons
     lateinit var upgrades: IntArray
@@ -44,11 +39,13 @@ class StoreActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val storeButtonList = Datasource().loadData()
-        upgrades = IntArray(storeButtonList.size){0}
+        //initialize upgrades array based on number of store buttons
+        upgrades = IntArray(storeButtonList.size) { 0 }
         binding.recyclerView.adapter = ItemAdapter(this, storeButtonList)
 
 
-        val returnButton : Button = binding.returnButton
+        //button to return to MainActivity
+        val returnButton: Button = binding.returnButton
         returnButton.setOnClickListener {
             val context = returnButton.context
             val intent = Intent(context, MainActivity::class.java)
@@ -67,7 +64,7 @@ class StoreActivity : AppCompatActivity() {
                 idlePower = getInt(STATE_IDLEPOW)
                 upgrades = getIntArray(STATE_UPGRADES)!!
 
-                loadedBundle = true
+                savedState = true
             }
 
         }
@@ -77,27 +74,27 @@ class StoreActivity : AppCompatActivity() {
         handler.postDelayed(object : Runnable {
             override fun run() {
                 idleTap()
-                handler.postDelayed(this, 1000)//1 sec delay
+                handler.postDelayed(this, 1000)//1/second
             }
         }, 0)
     }
 
     override fun onStart() {
         super.onStart()
-        //if statement to prevent the contents of the bundle from getting overwritten
-        //if they were loaded in
-        if(!loadedBundle && intent.extras != null) {
+
+        //load extras if they exist and the savedInstanceState wasn't loaded
+        if (!savedState && intent.extras != null) {
             tapCount = intent.getIntExtra("taps", tapCount)
             tapPower = intent.getIntExtra("tapPower", tapPower)
             idlePower = intent.getIntExtra("idlePower", idlePower)
 
             //only load upgrades if list is initialized (length > 0)
-            if(intent.getIntArrayExtra("upgrades")!!.isNotEmpty()) {
+            if (intent.getIntArrayExtra("upgrades")!!.isNotEmpty()) {
                 upgrades = intent.getIntArrayExtra("upgrades")!!
             }
         }
 
-        updateTapCount()
+        updateUI()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -111,12 +108,17 @@ class StoreActivity : AppCompatActivity() {
 
     }
 
+    //function called every second by handler to passively increase tapCount
     private fun idleTap() {
         tapCount += idlePower
         binding.tapCounter.text = getString(R.string.tap_count, tapCount)
     }
 
-    fun updateTapCount() {
+    //function to update the UI elements at the top of the screen
+    //called by onStart() and ItemAdapter.kt when a button is clicked
+    fun updateUI() {
         binding.tapCounter.text = getString(R.string.tap_count, tapCount)
+        binding.tapPower.text = getString(R.string.tap_power, tapPower)
+        binding.idlePower.text = getString(R.string.idle_power, idlePower)
     }
 }
