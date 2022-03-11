@@ -1,5 +1,7 @@
 <h1>Idle Tapper Version 2</h1>
 
+Author: Tyson Foster
+
 Idle Tapper Version 2 is an upgraded version of Idle Tapper from coding assignment 1, updated to meet the requirements of the second coding assignment.
 It is a simple incremental gain where the user gains 'Taps' by repeatedly tapping a button, and using those taps to purchase upgrades that increase
 the amount of taps gained from the button, as well as the amount gained passively each second
