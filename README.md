@@ -1,5 +1,6 @@
 <h1>Idle Tapper Version 2</h1>
 
+Coding Assignment 2
 Author: Tyson Foster
 
 Idle Tapper Version 2 is an upgraded version of Idle Tapper from coding assignment 1, updated to meet the requirements of the second coding assignment.
