@@ -7,11 +7,12 @@
     tools:context=".MainActivity">
 
     <!--    Note the change to snake_case for IDs. This is a more idiomatic approach -->
+<!--    snake_case is still preferred for ID names. :) -->
     <!--    Note also the extracted string resource in the first Button - this should be done for all views-->
     <!--    The width and height choices look fairly arbitrary - this is going to bite you if you try to load this app on a small screen. Better to no define them unless necessary, and rarely should you define width and height large enough to cause problems on smaller screens - such as with the main tap button. -->
 
     <TextView
-        android:id="@+id/tapPowerText"
+        android:id="@+id/tap_power_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -43,7 +44,7 @@
         app:layout_constraintBottom_toTopOf="@id/storeButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tapPowerText" />
+        app:layout_constraintTop_toBottomOf="@id/tap_power_text" />
 
     <TextView
         android:id="@+id/tapCounter"

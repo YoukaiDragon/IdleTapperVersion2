@@ -12,12 +12,11 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         const val STATE_TAPS = "tapCount"
-        const val STATE_TAPPOW = "tapPower"
+        const val STATE_TAP_POWER = "tapPower" //Preferred
         const val STATE_IDLEPOW = "idlePower"
         const val STATE_UPGRADES = "upgrades"
     }
-
-    val TAG = "mainActivity"
+//  You missed removing this tag with your Log statements, I would guess. It surfaced in a warning.
 
     private var tapCount = 0
     private var tapPower = 1 //amount tapCount increments when tap button is pressed
@@ -41,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState != null) {
             with(savedInstanceState) {
                 tapCount = getInt(STATE_TAPS)
-                tapPower = getInt(STATE_TAPPOW)
+                tapPower = getInt(STATE_TAP_POWER)
                 idlePower = getInt(STATE_IDLEPOW)
                 upgrades = getIntArray(STATE_UPGRADES)!!
 
@@ -83,7 +82,7 @@ class MainActivity : AppCompatActivity() {
         super.onSaveInstanceState(outState)
         outState.run {
             putInt(STATE_TAPS, tapCount)
-            putInt(STATE_TAPPOW, tapPower)
+            putInt(STATE_TAP_POWER, tapPower)
             putInt(STATE_IDLEPOW, idlePower)
             putIntArray(STATE_UPGRADES, upgrades)
         }

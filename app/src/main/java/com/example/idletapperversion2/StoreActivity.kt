@@ -12,15 +12,16 @@ import com.example.idletapperversion2.databinding.ActivityStoreBinding
 
 class StoreActivity : AppCompatActivity() {
 
+    //You shouldn't really need to define an identical companion object twice. Rather, access it on
+    //the activity instance via dot notation.
     companion object {
         const val STATE_TAPS = "tapCount"
         const val STATE_TAPPOW = "tapPower"
-        const val STATE_IDLEPOW = "idlePower"
+        const val STATE_IDLE_POWER = "idlePower" //As in MainActivity
         const val STATE_UPGRADES = "upgrades"
     }
 
-    val TAG = "storeActivity"
-
+//As in MainActivity
     //flag to prevent overwriting loaded savedInstanceState variables with extras from MainActivity
     private var savedState = false
 
@@ -61,7 +62,7 @@ class StoreActivity : AppCompatActivity() {
             with(savedInstanceState) {
                 tapCount = getInt(STATE_TAPS)
                 tapPower = getInt(STATE_TAPPOW)
-                idlePower = getInt(STATE_IDLEPOW)
+                idlePower = getInt(STATE_IDLE_POWER)
                 upgrades = getIntArray(STATE_UPGRADES)!!
 
                 savedState = true
@@ -100,9 +101,9 @@ class StoreActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.run {
-            putInt(STATE_TAPS, tapCount)
+            putInt(intent.extras?.getString(STATE_TAPS), tapCount) // See comment above regarding companion objects
             putInt(STATE_TAPPOW, tapPower)
-            putInt(STATE_IDLEPOW, idlePower)
+            putInt(STATE_IDLE_POWER, idlePower)
             putIntArray(STATE_UPGRADES, upgrades)
         }
 

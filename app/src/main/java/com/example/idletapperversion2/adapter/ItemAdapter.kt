@@ -63,6 +63,10 @@ class ItemAdapter(
             item.baseCost, item.costIncreaseFactor,
             store.upgrades[item.upgradeIndex]
         )
+//        You may have noticed the "No speakable text present" error in your list_item.xml file.
+//        The preferred, and more accessible way to manage this is not to put dynamic text directly
+//        on a button. Rather, you should include a small 'Purchase' button on the right hand side
+//        your list_item view and place the text as a label in a regular TextView.
         holder.binding.storeButton.text = context.resources.getString(
             item.stringResourceID,
             store.upgrades[item.upgradeIndex], upgradeCost
